@@ -1,0 +1,22 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+     - nginx
+     - php5
+     - php5-fpm
+     - php5-cli
+
+- name: nginx sites enabled
+  template: src=nginx-site-default.conf.j2 dest=/etc/nginx/sites-enabled/default
+
+- name: php.ini for php
+  template: src=php.ini-{{ item }}.j2 dest=/etc/php5/{{ item }}/php.ini
+  with_items:
+    - cli
+    - fpm
+
+- name: copy index.php
+  template: src=index.php dest=/var/wwww/index.php
