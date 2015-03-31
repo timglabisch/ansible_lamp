@@ -8,4 +8,8 @@
   roles:
     - common
     - web
-    - db
+    - mariadb
+    - varnish
+    - redis
+  vars:
+    wtf: hello_yes

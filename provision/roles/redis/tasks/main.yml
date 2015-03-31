@@ -1,0 +1,9 @@
+---
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - "redis-server"
+
+- name: redis configuration
+  notify: "reload redis"
+  template: src=redis.conf.j2 dest=/etc/redis/redis.conf

@@ -1,0 +1,13 @@
+---
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - varnish=3.0.5-2
+
+- name: varnish vcl configuration
+  notify: "reload varnish"
+  template: src=default.vcl.j2 dest=/etc/varnish/default.vcl
+
+- name: varnish configuration
+  notify: "restart varnish"
+  template: src=varnish.j2 dest=/etc/default/varnish

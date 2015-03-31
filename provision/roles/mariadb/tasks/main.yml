@@ -1,0 +1,13 @@
+---
+- name: install packages
+  apt: name={{ item }} state=present
+  with_items:
+    - python-mysqldb
+    - mariadb-server=5.5.41-1ubuntu0.14.04.1
+
+- mysql_db: name=testdata state=present encoding=UTF8
+- mysql_user: name=test password=12345 priv=testdata.*:ALL state=present
+#- mysql_user: name=replication password=12345 priv=*.*:"REPLICATION CLIENT" state=present
+
+- name: some advanced bash module
+  action: hellophp dest=some_dest foo={{wtf}}

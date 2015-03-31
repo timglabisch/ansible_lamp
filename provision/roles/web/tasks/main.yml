@@ -4,19 +4,24 @@
 - name: install packages
   apt: name={{ item }} state=present
   with_items:
-     - nginx
-     - php5
-     - php5-fpm
-     - php5-cli
+     - nginx=1.4.6-1ubuntu3.2
+     - php5=5.5.9+dfsg-1ubuntu4.7
+     - php5-fpm=5.5.9+dfsg-1ubuntu4.7
+     - php5-cli=5.5.9+dfsg-1ubuntu4.7
 
 - name: nginx sites enabled
+  notify: "reload nginx"
   template: src=nginx-site-default.conf.j2 dest=/etc/nginx/sites-enabled/default
 
 - name: php.ini for php
   template: src=php.ini-{{ item }}.j2 dest=/etc/php5/{{ item }}/php.ini
+  notify: "restart fpm"
   with_items:
     - cli
     - fpm
 
+- name: create web dir
+  file: path=/var/www state=directory mode="0777"
+
 - name: copy index.php
-  template: src=index.php dest=/var/wwww/index.php
+  template: src=index.php.j2 dest=/var/www/index.php mode=0755

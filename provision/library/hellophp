@@ -1,0 +1,5 @@
+#! env php
+<?php
+
+
+echo json_encode(['msg' => 'OK', 'the arguments' => file_get_contents($_SERVER['argv'][1])]);
