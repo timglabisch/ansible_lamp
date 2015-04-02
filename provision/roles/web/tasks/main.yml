@@ -15,6 +15,8 @@
 - name: copy index.php
   template: src=index.php.j2 dest=/var/www/index.php mode=0755
 
+- template: src=composer.json dest=/var/www/composer.json mode=0755
+
 - name: nginx sites enabled
   notify: "restart nginx"
   template: src=nginx-site-default.conf.j2 dest=/etc/nginx/sites-enabled/default

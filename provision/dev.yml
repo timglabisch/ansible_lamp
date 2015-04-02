@@ -8,6 +8,8 @@
   roles:
     - common
     - web
+    - web_dev
+    - composer
     - mariadb
     - varnish
     - redis

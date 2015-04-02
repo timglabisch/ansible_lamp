@@ -10,9 +10,12 @@
      - php-pear
 
 - name: copy php debug configurations
-  template: src={{ conf }}.php.j2  dest=/etc/php5/{{ item.type }}/conf.d/{{ item.conf }}.ini mode=0755
+  template: src={{ item.conf }}.ini.j2  dest=/etc/php5/{{ item.type }}/conf.d/20-{{ item.conf }}.ini mode=0755
   with_items:
     - {conf: xdebug, type: cli }
     - {conf: xdebug, type: fpm }
     - {conf: xhprof, type: cli }
     - {conf: xhprof, type: fpm }
+
+- name: copy the xdebug executable
+  template: src=xdebug.j2  dest=/usr/bin/xdebug mode=1755

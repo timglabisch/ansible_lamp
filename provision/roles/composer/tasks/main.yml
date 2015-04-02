@@ -1,0 +1,12 @@
+---
+- shell: "[ -f /usr/bin/composer.phar ] && echo 'Found' || echo ''"
+  register: composer_phar_check
+
+- shell: "[ -f /usr/bin/composer ] && echo 'Found' || echo ''"
+  register: composer_check
+
+- shell: curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin
+  when: not composer_check.stdout and not composer_check
+
+- shell: "cp /usr/bin/composer.phar /usr/bin/composer && rm /usr/bin/composer.phar"
+  when: composer_phar_check.stdout
