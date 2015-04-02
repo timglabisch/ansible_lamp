@@ -9,8 +9,14 @@
      - php5-fpm=5.5.9+dfsg-1ubuntu4.7
      - php5-cli=5.5.9+dfsg-1ubuntu4.7
 
+- name: create web dir
+  file: path=/var/www state=directory mode="0777"
+
+- name: copy index.php
+  template: src=index.php.j2 dest=/var/www/index.php mode=0755
+
 - name: nginx sites enabled
-  notify: "reload nginx"
+  notify: "restart nginx"
   template: src=nginx-site-default.conf.j2 dest=/etc/nginx/sites-enabled/default
 
 - name: php.ini for php
@@ -19,9 +25,3 @@
   with_items:
     - cli
     - fpm
-
-- name: create web dir
-  file: path=/var/www state=directory mode="0777"
-
-- name: copy index.php
-  template: src=index.php.j2 dest=/var/www/index.php mode=0755
